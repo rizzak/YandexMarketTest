@@ -52,8 +52,7 @@ public class FirstTest {
         List<WebElement> smartphones = driver.findElements(By.className("snippet-card"));
         // выбираем имеющих рейтинг от "3,5" до "4,5"
         for (WebElement one: smartphones) {
-            System.out.println("-----------------------------------");
-            System.out.println(one.getAttribute("textContent"));
+            System.out.println("Num: " + 1 + " Rating: " + one.findElement(By.className("rating")).getText());
             System.out.println("-----------------------------------");
         }
         // Случано выбрать 3 устройства из представленных на странице, имеющих рейтинг от "3,5" до "4,5",
