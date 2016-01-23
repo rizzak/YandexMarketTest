@@ -25,8 +25,6 @@ public class FirstTest {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         // Перейти по адресу https://market.yandex.ru/
         driver.get("https://market.yandex.ru/");
-        // Развернуть браузер для наглядности
-        driver.manage().window().maximize();
         // Check title
         Assert.assertEquals(driver.getTitle(), "Яндекс.Маркет — покупки в тысячах проверенных магазинов");
         // Нажать по ссылке "Каталог"
@@ -51,28 +49,29 @@ public class FirstTest {
         // собираем все смартфоны в кучу
         List<WebElement> smartphones = driver.findElements(By.className("snippet-card"));
         // выбираем имеющих рейтинг от "3,5" до "4,5"
-        for (WebElement one: smartphones) {
-            System.out.println("Num: " + 1 + " Rating: " + one.findElement(By.className("rating")).getText());
-            System.out.println("-----------------------------------");
+        ArrayList selectedElem = new ArrayList();
+        for (int i = 0; i < smartphones.size(); i++) {
+            WebElement one = smartphones.get(i);
+            Double rating = Double.parseDouble(one.findElement(By.className("rating")).getText());
+            if (3.5 <= rating && rating <= 4.5) {
+                String telTitle = one.findElement(By.className("snippet-card__header-text")).getText();
+                String costTel = one.findElement(By.className("snippet-card__info")).getAttribute("textContent");
+                selectedElem.add((i+1) + " - " + telTitle + " - " + costTel);
+            }
         }
         // Случано выбрать 3 устройства из представленных на странице, имеющих рейтинг от "3,5" до "4,5",
+        // вывести в лог информацию в формате "номер девайса на странице - наименование девайса - стоимость девайса (от-до)"
         List<Integer> list = new ArrayList<Integer>();
-        for(int i = 1; i < smartphones.size(); i++){
-            list.add(i);
+        for(int x = 1; x < selectedElem.size(); x++){
+            list.add(x);
         }
 
         Collections.shuffle(list);
         Integer[] randomArray = list.subList(0, 3).toArray(new Integer[3]);
 
         for(Integer num:randomArray){
-            System.out.println(num);
+            System.out.println(selectedElem.get(num));
         }
-
-        // вывести в лог информацию в формате "номер девайса на странице - наименование девайса - стоимость девайса (от-до)"
-        for (WebElement one: smartphones) {
-            System.out.println(one.getAttribute("title"));
-        }
-
     }
 
 
