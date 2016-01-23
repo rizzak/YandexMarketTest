@@ -76,7 +76,12 @@ public class FirstTest {
         ArrayList selectedElem = new ArrayList();
         for (int i = 0; i < smartphones.size(); i++) {
             WebElement one = smartphones.get(i);
-            Double rating = Double.parseDouble(one.findElement(By.className("rating")).getText());
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            List<WebElement> elems = one.findElements(By.className("rating"));
+            double rating = 0.0;
+            if (elems.size() != 0) {
+                rating = Double.parseDouble(one.findElement(By.className("rating")).getText());
+            }
             if (3.5 <= rating && rating <= 4.5) {
                 String telTitle = one.findElement(By.className("snippet-card__header-text")).getText();
                 String costTel = one.findElement(By.className("snippet-card__info")).getAttribute("textContent");
